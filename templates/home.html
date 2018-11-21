@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link href="../static/resources/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="../static/resources/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../static/resources/css/cadastroPaciente.css" rel="stylesheet">
+	<link href="..\static\resources\css\style.css" rel="stylesheet">
+	<script src="../static/resources/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="../static/resources/images/favicon.ico">
+	<title>CadUnico - A plataforma da saúde</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				 aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/home">Cadastro Único de Saúde</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li id="homeNavitem"><a href="/home">Home </a></li>
+					<li id="pacienteNavitem"><a href="/paciente/manage">Paciente</a></li>
+					<li id="anamneseNavitem"><a href="/anamnese/manage">Anamnese</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<p class="navbar-text noselect" th:text=${userName}>Designer</p>
+					<button type="button" class="btn btn-danger btn-default navbar-btn">Sair &nbsp <span class="glyphicon glyphicon-log-out"></span></button>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Cadastre um paciente</h1>
+			<p>O sistema permite realizar diversas operações com apenas um simples cadastro é possível realizar um atendimento
+				em qualquer
+				unidades de saúde. Visando a saúde do paciente podemos melhorar o seu atendimento. Selecione uma das opções abaixo:</p>
+			<p>
+				<a class="btn btn-lg btn-primary" href="/paciente/manage" role="button">Cadastrar</a>
+				<a class="btn btn-lg btn-primary" href="/paciente/manage" role="button">Alterar</a>
+				<a class="btn btn-lg btn-primary" href="/paciente/manage" role="button">Consultar</a>
+				<a class="btn btn-lg btn-primary" href="/paciente/manage" role="button">Excluir</a>
+			</p>
+		</div>
+		<div class="jumbotron">
+			<h1>Anamnese</h1>
+			<p>Os dados de uma consulta médica são imprescindíveis para que possa ser feito de forma acertiva o diagnóstico do
+				paciente,
+				para que possa ser medicado corretamente.</p>
+			<p>
+				<a class="btn btn-lg btn-primary" href="#" role="button">Crie uma anamnese</a>
+				<a class="btn btn-lg btn-primary" href="#" role="button">Consultar</a>
+			</p>
+		</div>
+	</div>
+	<script src="../static/resources/js/principal_js.js"></script>
+	<script>
+		window.jQuery ||
+			document
+			.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+	</script>
+	<script src="../static/resources/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

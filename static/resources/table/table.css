@@ -1,0 +1,54 @@
+.selected-row {
+  color: #0277BD !important;
+  background-color: #6fff6fa8;
+}
+
+.row-hover{
+  background-color: #acb4be;
+}
+
+.gs-table td,
+.gs-table th {
+  padding: .75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6
+}
+
+.gs-table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  /*padding: 0.5rem 15px;*/
+  border-width: 0;
+  font-size: 1.0rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.gs-table tbody+tbody {
+  border-top: 2px solid #dee2e6
+}
+
+.gs-table tbody td,
+.gs-table tbody th {
+  padding: 15px 15px;
+  border-color: #e9ecef;
+}
+/*
+.gs-table-head-default tr th:first-child {
+  padding-left: 20px;
+}
+
+.gs-table-head-default tr th:last-child {
+  padding-right: 20px;
+}
+*/
+.gs-table-body-default {
+  background: #FFFFFF;
+}
+
+.gs-table-body-default td,
+.gs-table-body-default th {
+  font-size: 1.2rem;
+}

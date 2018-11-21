@@ -1,0 +1,423 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anamnese - CadUnico</title>
+<!--CSS-->
+<link href="..\..\static\resources\css\cadastroPaciente.css" rel="stylesheet">
+<link href="..\..\static\resources\css\cadastroAnamnese.css" rel="stylesheet">
+<link href="..\..\static\resources\bootstrap-3.3.7\css\bootstrap.min.css" rel="stylesheet">
+<link href="..\..\static\resources\bootstrap-3.3.7\css\bootstrap-theme.min.css" rel="stylesheet">
+<link href="..\..\static\resources\bootstrap-datepicker\css\bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="..\..\static\resources\css\style.css" rel="stylesheet">
+<!--Javascript-->
+<script src="..\..\static\resources\jquery\jquery-3.3.1.min.js"></script>
+<script src="..\..\static\resources\moment\moment.min.js"></script>
+<script src="..\..\static\resources\bootstrap-3.3.7\js\bootstrap.min.js"></script>
+<script src="..\..\static\resources\bootstrap-datepicker\js\bootstrap-datepicker.min.js"></script>
+<script src="..\..\static\resources\jquery\jquery.mask.min.js"></script>
+<script src="..\..\static\resources\notify\bootstrap-notify.min.js"></script>
+<script type="text/javascript">
+            $(document).ready(function () {
+                $('#txtCpf').mask('000.000.000-00');
+                $('#altura').mask('0,00');
+                $('#dataInicio').mask('00/00/0000');
+				$('#dataInicio').datepicker({
+                   	format: "dd/mm/yyyy",
+                   	endDate: "-1d",
+                   	language: 'pt-BR'
+                });
+				var input = document.getElementById("txtRestricaoTipo");
+	    		input.disabled = true;
+			});
+	
+        </script>
+<style>
+.conteudo-pagina-anamnese {
+	margin-left: 65px;
+	margin-top: 10px;
+}
+.sintomas{
+	background-color: green;
+	border-radius: 45px;
+	color: white;
+	text-align: center;
+	font-family: verdana;
+	font-size: 15px;
+	height: auto;
+}
+
+.elementos{
+	margin: 80px;
+}
+.btn-proximo {
+	position: absolute;
+	top: 480px;
+	left: 1125px;
+}
+
+.btn-voltar {
+	position: absolute;
+	top: 480px;
+	left: 1025px;
+}
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home">Cadastro Único de Saúde</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li id="homeNavitem"><a href="/home">Home </a></li>
+                    <li id="pacienteNavitem"><a href="/paciente/manage">Paciente</a></li>
+                    <li id="anamneseNavitem"><a href="/anamnese/manage">Anamnese</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <p class="navbar-text noselect" th:text=${userName}>Designer</p>
+                    <button type="button" class="btn btn-danger btn-default navbar-btn">Sair &nbsp <span class="glyphicon glyphicon-log-out"></span></button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+	<fieldset>
+		<div class="panel panel-primary">
+			<div class="panel-heading">&nbsp &nbsp &nbsp &nbsp &nbsp Anamnese</div>
+		</div>
+	</fieldset>
+	<ul class="nav nav-tabs nav-justified">
+		<li class="active"><a href="#menu1" data-toggle="tab">Dados	paciente</a></li>
+		<li><a href="#menu2" data-toggle="tab">Dados consulta</a></li>
+		<li><a href="#menu3" data-toggle="tab">Motivo</a></li>
+		<li><a href="#menu4" data-toggle="tab">Duração</a></li>
+		<li><a href="#menu5" data-toggle="tab">Tratamento</a></li>
+	</ul>
+	<div class="tab-content">
+		<div id="menu1"	class="tab-pane fade in active conteudo-pagina-anamnese">
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="txtCpf">CPF <h11>*</h11></label>
+				<div class="col-md-2">
+					<div class="input-group">
+						<span class="input-group-addon">
+						<i class="glyphicon glyphicon-file"></i></span> 
+						<input id="txtCpf" name="txtCpf" class="form-control" placeholder="000.000.000-00" type="text"
+							maxlength="14">
+					</div>
+				</div>
+				<div class="col-md-2">
+					<button type="button" class="btn btn-primary">
+						<span class="glyphicon glyphicon-search"></span>
+					    Consultar
+					</button>
+				</div>
+			</div>
+			</br></br>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="txtNome">Nome <h11>*</h11></label>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon">
+						<i class="glyphicon glyphicon-user"></i></span> <input id="txtNome" name="txtNome" class="form-control"
+						   readonly="readonly" placeholder="Nome Completo" type="text" maxlength="50">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="txtDataNascimento">Data
+						de nascimento <h11>*</h11>
+					</label>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon">
+							<i class="glyphicon glyphicon-calendar"></i></span> <input id="txtDataNascimento"
+							   name="txtDataNascimento" readonly="readonly" placeholder="DD / MM / AAAA"
+							   class="form-control input-md" type="search"	maxlength="8">
+						</div>
+					</div>
+				</div>
+				<br><br><br>
+				<label class="col-md-2 control-label" for="txtAltura">Altura<h11>*</h11></label>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i
+							class="glyphicon glyphicon-sort-by-order"></i></span> <input id="txtAltura"
+							name="txtAltura" placeholder="Ex.:1,94" class="form-control input-md" type="text" maxlength="4">
+					</div>
+				</div>
+
+
+				<label class="col-md-2 control-label" for="txtPeso">Peso <h11>*</h11></label>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon"><i
+							class="glyphicon glyphicon-sort-by-order"></i></span> <input id="txtPeso"
+							name="txtPeso" placeholder="Ex.:80,6" class="form-control input-md" type="text" maxlength="5">
+					</div>
+				</div>
+				<a class="btn btn-primary btnNext btn-proximo"> &nbsp;<span
+					class="glyphicon glyphicon-arrow-right"></span> &nbsp;
+				</a>
+			</div>
+			<br>
+			<br>
+		</div>
+		<div id="menu2" class="tab-pane fade conteudo-pagina-anamnese">
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="RestriAlimentar">Restrição alimentar <h11>*</h11></label>
+				<div class="col-md-3">
+					<select required id="cmbRestricaoAlimentar" name="cmbRestricaoAlimentar" onchange="desabilitaCampoRestricao()" 
+						class="form-control">
+						<option value="Selecione">Selecione...</option>
+						<option value="Sim">Sim</option>
+						<option value="Nao">Não</option>
+					</select>
+				</div>
+				<label class="col-md-2 control-label" for="txtRestricaoTipo">Qual restrição? <h11>*</h11></label>
+				<div class="col-md-3">
+					<input id="txtRestricaoTipo" name="txtRestricaoTipo" class="form-control"
+						placeholder="Qual restrição?" type="text" maxlength="30">
+				</div>
+			</div>
+			<br><br><br>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="cmbAlimentacaoSaudavel">Alimentação saudável <h11>*</h11></label>
+				<div class="col-md-3">
+					<select required id="cmbAlimentacaoSaudavel" name="cmbAlimentacaoSaudavel" class="form-control">
+						<option value="Selecione">Selecione...</option>
+						<option value="Sim">Sim</option>
+						<option value="Nao">Não</option>
+					</select>
+				</div>
+				<label class="col-md-2 control-label" for="cmbAtividadeFisica">Atividade física <h11>*</h11></label>
+				<div class="col-md-3">
+					<select required id="cmbAtividadeFisica" name="cmbAtividadeFisica" class="form-control">
+						<option value="Selecione">Selecione...</option>
+						<option value="Sim">Sim</option>
+						<option value="Nao">Não</option>
+					</select>
+				</div>
+			</div>
+			<br><br>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="cmbFumante">Fumante<h11>*</h11></label>
+				<div class="col-md-3">
+					<select required id="cmbFumante" name="cmbFumante" class="form-control">
+						<option value="Selecione">Selecione...</option>
+						<option value="Sim">Sim</option>
+						<option value="Nao">Não</option>
+					</select>
+				</div>
+
+				<label class="col-md-2 control-label" for="cmbIngerirBebida">Ingeriu de bebida <h11>*</h11>
+				</label>
+				<div class="col-md-3">
+					<select required id="cmbIngerirBebida" name="cmbIngerirBebida"
+						class="form-control">
+						<option value="Selecione">Selecione...</option>
+						<option value="Sim">Sim</option>
+						<option value="Nao">Não</option>
+					</select>
+				</div>
+			</div>
+			<br><br>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="txtProblemasSaude">Problemas de saúde</label><div class="col-md-3">
+					<input id="txtProblemasSaude" name="txtProblemasSaude" placeholder="Problemas de saúde" 
+					class="form-control input-md" type="text" maxlength="50">
+				</div>
+				<button class="btn btn-success" onclick="criarElemento()">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+				
+			</div>
+			<div id="problemasSaude">
+				
+			</div>
+			<a class="btn btn-primary btnNext btn-proximo"> &nbsp;
+			<span class="glyphicon glyphicon-arrow-right"></span> &nbsp;</a>
+			
+			 <a class="btn btn-primary btnPrevious btn-voltar"> &nbsp;
+			 <span class="glyphicon glyphicon-arrow-left"></span> &nbsp;</a>
+			 
+		</div>
+		<div id="menu3" class="tab-pane fade conteudo-pagina-anamnese">
+			<div class="form-group">
+				<div class="row form-group">
+				<label class="col-md-2 control-label" for="txtResumoAnamnese">Resumo anamnese <h11>*</h11></label>
+				<div class="col-md-6">
+					<div class="input-group">
+						<span class="input-group-addon">
+						<i class="glyphicon glyphicon-file"></i></span> 
+						<input id="txtResumoAnamnese" name="txtResumoAnamnese" class="form-control" 
+						placeholder="Descreva um breve resumo" type="text" maxlength="50">
+					</div>
+				</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-md-2 control-label" for="txtDescicao">Descrição <h11>*</h11></label>
+					<div class="col-md-6">
+						<textarea class="form-control input-md" id="txtDescicao" cols="40" rows="5"
+							style="margin: 0px 2.5px 0px 0px; width: 634px; height: 157px;"></textarea>
+					</div>
+				</div>
+				<a class="btn btn-primary btnNext btn-proximo"> &nbsp;
+				<span class="glyphicon glyphicon-arrow-right"></span> &nbsp;</a>
+				<a class="btn btn-primary btnPrevious btn-voltar"> &nbsp;
+				<span class="glyphicon glyphicon-arrow-left"></span> &nbsp;</a>
+			</div>
+		</div>
+		<div id="menu4" class="tab-pane fade conteudo-pagina-anamnese">
+			<div class="form-group">
+			<label class="col-md-2 control-label" for="dataInicio">Início dos sintoma(s) <h11>*</h11></label>
+			<div class="container">
+				<div class='col-md-2'>
+					<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon">
+						<i class="glyphicon glyphicon-calendar"></i></span> 
+						<input type="text" class="form-control" id="dataInicio"	placeholder="__/__/____"  maxlength="10"
+						style="text-align:center" />
+					</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label" for="cmbPrimeiraVez">Já sentiu isso? <h11>*</h11></label>
+				<div class="col-md-4">
+					<select required id="cmbPrimeiraVez" name="cmbPrimeiraVez" class="form-control">
+						<option value="Selecione">Selecione...</option>
+						<option value="Sim">Sim</option>
+						<option value="Nao">Não</option>
+					</select>
+				</div>
+			</div>
+
+			<a class="btn btn-primary btnNext btn-proximo"> &nbsp;
+			<span class="glyphicon glyphicon-arrow-right"></span> &nbsp;</a>
+			<a class="btn btn-primary btnPrevious btn-voltar"> &nbsp;
+			<span class="glyphicon glyphicon-arrow-left"></span> &nbsp;</a>
+		</div>
+		<div id="menu5" class="tab-pane fade conteudo-pagina-anamnese">
+			<label class="col-md-2 control-label" for="txtMedicamento">Medicamentos</label>
+			<div class="col-md-2">
+					<input id="txtMedicamento" name="txtMedicamento" placeholder="Digite os medicamentos" 
+					class="form-control input-md" type="text" maxlength="30">
+				</div>
+				<button class="btn btn-success" onclick="criarElemento()">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			
+			
+			<button id="Cadastrar" name="Cadastrar"
+				class="btn btn-success btn-proximo" type="Submit">Concluir</button>
+			&nbsp &nbsp &nbsp
+			<button id="Cadastrar" name="Cadastrar"
+				class="btn btn-danger btn-voltar" type="Reset">Cancelar</button>
+			&nbsp &nbsp &nbsp
+		</div>
+	</div>
+	<!--</form>-->
+	<script src="..\..\static\resources\js\cadastroAnamnese_js.js"></script>
+	<script type="text/javascript">
+    	$('.btnNext').click(function () {
+        	$('.nav-tabs > .active').next('li').find('a').trigger('click');
+        });
+    	$('.btnPrevious').click(function () {
+			$('.nav-tabs > .active').prev('li').find('a').trigger('click');
+		});
+        $('.item div').hide();
+        var all_spans = $('.item button').parent().find('div');
+        $('.item button').click(function (e) {
+        	e.preventDefault();
+            all_spans.hide();
+            $this = $(this).parent().find('div');
+            // here is what I want to do
+            if ($this.is(':hidden')) {
+            	$(this).parent().find('div').show();
+            } else {
+            	$(this).parent().find('div').hide();
+            }
+        });
+        function criarElemento() {			
+        	if(document.getElementById("txtProblemasSaude").value != ""){
+        	//Captura o elemento pai
+			var divPai = document.getElementById("problemasSaude");
+        	//Define as classes do pai
+			divPai.classList.add("panel");
+			divPai.classList.add("panel-default");
+			divPai.classList.add("col-md-6");
+			//Verifica se o elemento já existe
+			if(document.getElementById("divCabecalho") == null){
+				//Cria o cabeçalho para colocar o titulo
+				var divCabecalho = document.createElement("div");
+				divCabecalho.classList.add("panel-heading");
+				divCabecalho.setAttribute("id", "divCabecalho");
+				
+				var h3Title = document.createElement("h3");
+				h3Title.classList.add("panel-title");
+				var h3Texto = document.createTextNode("Problemas saúde");
+				h3Title.appendChild(h3Texto);
+				
+				//Associa os elementos
+				divCabecalho.appendChild(h3Title);
+				divPai.appendChild(divCabecalho);
+				
+				//Cria a div onde ficará o conteudo
+				var divConteudo = document.createElement("div");
+				divConteudo.classList.add("panel-body");
+				divPai.appendChild(divConteudo);
+				//document.body.appendChild(divPai);
+			}
+			//Cria o elemento que conterá no painel
+			var textoElemento = document.getElementById("txtProblemasSaude").value.toUpperCase();
+			var spanElemento = document.createElement("span");
+			spanElemento.setAttribute("id", "elemento");
+			var spanTexto = document.createTextNode("\xa0\xa0"+textoElemento+ "\xa0\xa0");
+			spanElemento.appendChild(spanTexto);
+			spanElemento.classList.add("sintomas");
+			
+			//Associa os elementos			
+			divPai.appendChild(spanElemento);
+			
+			
+			document.getElementById("txtProblemasSaude").value = "";
+		}else{
+			$.notify({
+				icon: 'glyphicon glyphicon-warning-sign',
+				title: 'Aviso!',
+				message: 'Preencha o campo.',
+				target: '_blank'
+			},{
+				type: "warning"
+			});
+
+		}
+        }
+        
+        function desabilitaCampoRestricao(){
+    		var textoELemento = document.getElementById("cmbRestricaoAlimentar").value;
+    		var input = document.getElementById("txtRestricaoTipo");
+    		if(textoELemento == "Sim"){
+    			input.disabled = false;
+    		}
+    		else{
+    			input.disabled = true;
+    			document.getElementById("txtRestricaoTipo").value = "";
+    		}
+    		
+    	}
+        </script>
+</body>
+</html>

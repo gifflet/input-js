@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link href="../static/resources/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="../static/resources/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<script src="../static/resources/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!------ Include the above in your HEAD tag ---------->
+	<script src="../static/resources/bootstrap-notify/bootstrap-notify.min.js"></script>
+	<link rel="stylesheet" href="../static/resources/fonts/css/all.css">
+	<title>Cadastro Único de Saúde</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+	<div class="container">
+		<br>
+		<p class="text-center">Cadastro Único de Saúde</p>
+		<hr>
+		<center>
+			<aside class="col-sm-4">
+				<br>
+
+				<div class="card">
+					<article class="card-body">
+						<h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+						<hr>
+						<form name="FORMLOGIN" action="/login" method="post">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fa fa-user"></i>
+										</span>
+									</div>
+									<input name="email" class="form-control" placeholder="E-mail" type="email" autofocus>
+								</div>
+								<!-- input-group.// -->
+							</div>
+							<!-- form-group// -->
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fa fa-lock"></i>
+										</span>
+									</div>
+									<input name="password" class="form-control" placeholder="Senha" type="password">
+								</div>
+								<!-- input-group.// -->
+							</div>
+							<!-- form-group// -->
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary btn-block">
+									Entrar</button>
+							</div>
+							<!-- form-group// -->
+							<p class="text-center">
+								<a href="#" class="btn">Esqueceu a senha?</a>
+							</p>
+						</form>
+					</article>
+				</div>
+				<!-- card.// -->
+			</aside>
+			<!-- col.// -->
+		</center>
+	</div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var showMessage = /*[[${showMessage}]]*/ true;
+		var message = /*[[${message}]]*/ 'Page Loaded';
+		var messageType = /*[[${messageType}]]*/ 'success';
+		console.log(message);
+
+		if (showMessage) {
+			$.notify(message, {
+				allow_dismiss: false,
+				type: messageType,
+				animate: {
+					enter: 'animated bounceIn',
+					exit: 'animated bounceOut'
+				},
+				delay: 2000
+			});
+		}
+		/*]]>*/
+	</script>
+</body>
+
+</html>

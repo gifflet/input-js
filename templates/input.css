@@ -1,0 +1,55 @@
+.dynamic-text-container {
+    height: auto;
+    width: 35%;
+    border-left: 4px solid blue;
+    margin-bottom: 10px;
+}
+
+.container-item {
+    height: auto ;
+    width: auto;
+    margin-bottom: 10px;
+}
+
+.input-item {
+    height: 33px;
+    margin-bottom:20px;
+    font-size: 1.3em;
+    width: auto;
+    padding-left: 5px;
+    margin-top: 10px;
+    outline: none;
+    border: none;
+}
+
+/* adapted from http://maxwells.github.io/bootstrap-tags.html */
+.tag {
+    font-size: 14px;
+    padding: .3em .4em .4em;
+    margin: 0 .1em;
+    margin-bottom: 10px;
+}
+
+.tag a {
+    color: #bbb;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.tag a:hover {
+    opacity: 1.0
+}
+
+.tag .remove {
+    vertical-align: bottom;
+    top: 0;
+}
+
+.tag a {
+    margin: 0 0 0 .3em;
+}
+
+.tag a .glyphicon-white {
+    color: #fff;
+    margin-bottom: 2px;
+}

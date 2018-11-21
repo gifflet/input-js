@@ -1,0 +1,84 @@
+* {box-sizing: border-box}
+
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: 2px solid #555;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 9px;
+    font-size: 20px;
+    width: 8%;
+    border-radius: 100px;
+}
+/*-------------------------------------------------BOTOES-----------------------*/
+.btn-proximo{
+    position: absolute;
+    top: 400px;
+    left: 900px;
+}
+
+.btn-voltar{
+    position: absolute;
+    top: 400px;
+    left: 800px;
+}
+.btn-modal{
+    position: absolute;
+    top: 400px;
+    left: 680px;
+}
+
+
+.tablink:hover {
+    background-color: #777;
+}
+
+h4{
+    margin-left: 30px !important;
+    margin-top: 5px !important;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: white;
+    color: black;
+    display: none;
+    padding: 50px 20px;
+    height: 80%;
+}
+
+.menu-top{
+    width: 20%;
+}
+
+th{
+    width: 12px;
+    height: 30px;
+    margin: 1px;
+    
+}
+
+
+.conteudo-pagina{
+    width: 80%;
+    position: absolute !important;
+    left: 20% !important;
+    top: 20% !important;
+    margin-left:-110px !important;
+    margin-top:-50px !important;
+}
+
+#Home {/*background-color: red;*/}
+#News {}
+#Contact {}
+#About {}

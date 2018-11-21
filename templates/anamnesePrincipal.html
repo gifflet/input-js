@@ -1,0 +1,201 @@
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Anamnese - Principal</title>
+	<!--CSS-->
+	<link href="..\static\resources\css\cadastroPaciente.css" rel="stylesheet">
+	<link href="..\static\resources\css\cadastroAnamnese.css" rel="stylesheet">
+	<link href="..\static\resources\table\table.css" rel="stylesheet">
+	<link href="..\static\resources\bootstrap-3.3.7\css\bootstrap.min.css" rel="stylesheet">
+	<link href="..\static\resources\bootstrap-3.3.7\css\bootstrap-theme.min.css" rel="stylesheet">
+	<link href="..\static\resources\bootstrap-datepicker\css\bootstrap-datepicker.min.css" rel="stylesheet">
+	<link href="..\static\resources\css\style.css" rel="stylesheet">
+	<!--Javascript-->
+	<script src="..\static\resources\js\jquery-1.11.1.min.js"></script>
+	<script src="..\static\resources\axios\dist\axios.min.js"></script>
+	<script src="..\static\resources\moment\moment.min.js"></script>
+	<script src="..\static\resources\js\cadastroAnamnese_js.js"></script>
+	<script src="..\static\resources\bootstrap-notify\bootstrap-notify.min.js"></script>
+	<script src="..\static\resources\bootstrap-3.3.7\js\bootstrap.min.js"></script>
+	<script src="..\static\resources\bootstrap-datepicker\js\bootstrap-datepicker.min.js"></script>
+	<script src="..\static\resources\jquery\jquery.mask.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#cpf').mask('000.000.000-00');
+			$('#dataconsulta').mask('00/00/0000');
+		})
+	</script>
+	<style>
+		td, th{
+			text-align:center;
+			width: 33%;
+		}
+		table{
+			width: 100%;
+		}
+		.btn-custom{
+			padding:1px 10px 1px 5px;
+			border-radius:50px;
+			
+		}
+		.btn-icon{
+			padding-top:8px;
+			padding-bottom:8px;
+			padding-left:8px;
+		}
+		.painel-anamnese{
+			padding-left: 80px;
+		}
+		.text-radius{
+			border-radius: 10px;
+		}
+		tr{
+			
+			cursor: pointer; 
+			transition: all .25s ease-in-out
+		}
+		.row{
+			margin-right:0px !important;
+		}
+		#cpfLabel{
+			width: 10%;
+		}
+		.dynatable-search{
+			/*margin-bottom:5%;*/
+			padding-left: 0px !important;
+		}
+		.pagination{
+			margin:0px !important;
+		}
+		.input-group[class*=col-]{
+			float:left !important;
+		}
+		#table-controls{
+			margin-left: 15px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				 aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/home">Cadastro Único de Saúde</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li id="homeNavitem"><a href="/home">Home </a></li>
+					<li id="pacienteNavitem"><a href="/paciente/manage">Paciente</a></li>
+					<li id="anamneseNavitem"><a href="/anamnese/manage">Anamnese</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<p class="navbar-text noselect" th:text=${userName}>Designer</p>
+					<button type="button" class="btn btn-danger btn-default navbar-btn">Sair &nbsp <span class="glyphicon glyphicon-log-out"></span></button>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<fieldset>
+		<div class="panel panel-primary">
+			<div class="panel-heading">&nbsp &nbsp &nbsp &nbsp &nbsp Anamnese</div>
+		</div>
+	</fieldset>
+	<div class="row painel-anamnese">
+		<div class="col-md-6 form-group painel-anamnese">
+			<button type="button" class="btn btn-success btn-custom btn-lg">
+				<span class="glyphicon glyphicon-plus img-circle text-default btn-icon"></span>
+				Adicionar Anamnese
+			</button>
+		</div>
+		<label class="col-md-2 control-label" for="cpf" id="cpfLabel">CPF <h11>*</h11></label>
+		<div class="col-md-2">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+				<input id="cpf" name="cpf" class="form-control" placeholder="___.___.___-__" type="text" maxlength="14">
+			</div>
+		</div>
+		<div class="col-md-1 form-group">
+			<button type="button" class="btn btn-primary btn-custom" id="searchPaciente" onclick="pesquisaAnamnesesPorCpf(cpf.value);">
+				<span class="glyphicon glyphicon-search img-circle text-default btn-icon"></span>
+				Pesquisar
+			</button>
+		</div>
+	</div>
+	</br>
+	<div class="container">
+		<div class="row">
+			<label class="col-md-2 control-label" for="dataconsulta">Data consulta </label>
+			<div class="col-md-3">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+					<input id="dataconsulta" name="dataconsulta" class="form-control" placeholder="__/__/____" type="text" maxlength="14">
+				</div>
+			</div>
+			<div class="col-md-2 form-group">
+				<button type="button" class="btn btn-primary btn-custom">
+					<span class="glyphicon glyphicon-search img-circle text-default btn-icon"></span>
+				</button>
+			</div>
+			<div class="col-md-3 form-group">
+				<button type="button" class="btn btn-warning btn-custom" id="btnAtualizarAnamnese" disabled>
+					<span class="glyphicon glyphicon-pencil img-circle text-default btn-icon"></span>
+					Atualizar Anamnese
+				</button>
+			</div>
+			<div class="col-md-1 form-group">
+				<button type="button" class="btn btn-danger btn-custom" id="btnRemoverAnamnese" disabled>
+					<span class="glyphicon glyphicon-remove text-default btn-icon"></span>
+					Remover Anamnese
+				</button>
+			</div>
+		</div>
+	</div>
+	</br>
+	<div class="row" id="table-controls">
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-search" aria-hidden="true" id="searchIcon"></i></span>
+				<input type="text" id="search" class="form-control" aria-describedby="searchIcon" />
+			</div>
+		</div>
+		<div class="col-md-8" id="table-controls-paginate">
+		</div>
+	</div>
+	<div class="col-sm-12 form-group" align="center">
+		<table class="table" id="myTable">
+		</table>
+	</div>
+	<script src="..\static\resources\table\table-sortable.js"></script>
+	<script src="..\static\resources\table\table.js"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var serviceAddress = /*[[${serviceAddress}]]*/ "localhost:8080";
+		var pacienteCpf = /*[[${pacienteCpf}]]*/ "";
+		var fillPacientInformation = /*[[${fillPacientInformation}]]*/ false;
+		var selectedRowId = null;
+
+		function pesquisaAnamnesesPorCpf(cpf) {
+			$("#btnAtualizarAnamnese").prop("disabled", true);
+			$("#btnRemoverAnamnese").prop("disabled", true);
+			if (cpf != "") {
+				// Make a request for a user with a given ID
+				var endpoint = "http://" + serviceAddress + "/anamnese/" + cpf;
+				updateTable(endpoint);
+			}
+		}
+	</script>
+</body>
+
+</html>

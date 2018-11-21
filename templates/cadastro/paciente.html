@@ -1,0 +1,552 @@
+<html>
+
+<head>
+    <title>Paciente - CadUnico</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- CSS -->
+    <link href="..\..\static\resources\bootstrap-3.3.7\css\bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="..\..\static\resources\bootstrap-3.3.7\css\bootstrap-theme.min.css" rel="stylesheet">
+    <link href="..\..\static\resources\css\cadastroPaciente.css" rel="stylesheet">
+    <link href="..\..\static\resources\css\style.css" rel="stylesheet">
+    <!-- Javascript -->
+    <script src="..\..\static\resources\js\jquery-1.11.1.min.js"></script>
+    <script src="..\..\static\resources\moment\moment.min.js"></script>
+    <script src="..\..\static\resources\jquery\jquery.mask.min.js"></script>
+    <script src="..\..\static\resources\bootstrap-notify\bootstrap-notify.min.js"></script>
+    <script src="..\..\static\resources\bootstrap-3.3.7\js\bootstrap.min.js"></script>
+    <script src="..\..\static\resources\axios\dist\axios.min.js"></script>
+    <script src="..\..\static\resources\js\utils.js"></script>
+    <script src="..\..\static\resources\js\cadastroPaciente_js.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataNascimento').mask('00/00/0000');
+            $('#rg').mask('00.000.000-0');
+            $('#cpf').mask('000.000.000-00');
+            $('#dataNascimento').mask('00/00/0000');
+            $('#celular').mask('(00) 00000-0000');
+            $('#telefone').mask('(00) 0000-0000');
+            $('#cep').mask('00000-000');
+        })
+        /* function enviarFormulario() {
+                if ($('#nome').value.length > 19) {
+                    $.notify({
+                        message: 'Maior'
+                    }, {
+                        type: 'info'
+                    });
+                } else {
+                    $.notify({
+                        message: 'FGAVHABHABHBA'
+                    }, {
+                        type: 'danger'
+                    });
+                }
+                return false;
+            }
+ */
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home">Cadastro Único de Saúde</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li id="homeNavitem"><a href="/home">Home </a></li>
+                    <li id="pacienteNavitem"><a href="/paciente/manage">Paciente</a></li>
+                    <li id="anamneseNavitem"><a href="/anamnese/manage">Anamnese</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <p class="navbar-text noselect" th:text=${userName}>Designer</p>
+                    <button type="button" class="btn btn-danger btn-default navbar-btn">Sair &nbsp <span class="glyphicon glyphicon-log-out"></span></button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <fieldset>
+        <div class="panel panel-primary">
+            <div class="panel-heading">&nbsp &nbsp &nbsp &nbsp &nbsp Paciente</div>
+        </div>
+    </fieldset>
+    <div class="panel-body">
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="cpf">CPF <h11>*</h11></label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+                    <input id="cpf" name="cpf" class="form-control" placeholder="000.000.000-00" type="text" maxlength="14">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <button type="button" id="btnPesquisaPaciente" class="btn btn-primary" onclick="pesquisaPaciente(cpf.value)">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Consultar
+                </button>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="rg">RG <h11>*</h11></label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+                    <input id="rg" name="rg" class="form-control" placeholder="00.000.000-0" type="text" maxlength="12">
+                </div>
+            </div>
+            <label class="col-md-1 control-label" for="dataNascimento">Nascimento<h11>*</h11></label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    <input id="dataNascimento" name="dataNascimento" class="form-control" placeholder="DD/MM/AAAA" type="text"
+                        maxlength="10">
+                </div>
+            </div>
+            <label class="col-md-1 control-label" for="corPele">Cor pele<h11>*</h11></label>
+            <div class="col-md-3">
+                <select required="" id="corPele" name="corPele" class="form-control">
+                    <option value="Selecione">Selecione...</option>
+                    <option value="Branco">Branco</option>
+                    <option value="Pardo">Pardo</option>
+                    <option value="Negro">Negro</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="nome">Nome <h11>*</h11></label>
+            <div class="col-md-9">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="nome" name="nome" class="form-control" placeholder="Nome Completo" type="text" maxlength="50">
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="celular">Celular <h11>*</h11></label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                    <input id="celular" name="celular" class="form-control" placeholder="(00) 00000-0000" required=""
+                        type="text" maxlength="13">
+                </div>
+            </div>
+            <label class="col-md-1 control-label" for="telefone">Telefone</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="telefone" name="telefone" class="form-control" placeholder="(00) 0000-0000" type="text"
+                        maxlength="12">
+                </div>
+            </div>
+            <label class="col-md-1 control-label" for="radios">Sexo <h11>*</h11></label>
+            <form>
+                <label for="male" class="radio-inline">
+                    <input type="radio" name="gender" id="male" value="male">Masculino </label>
+                <label for="female" class="radio-inline">
+                    <input type="radio" name="gender" id="female" value="female"> Feminino</label>
+            </form>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="email">E-mail <h11>*</h11></label>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                    <input id="email" name="email" class="form-control" placeholder="email@email.com" required="" type="text"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                </div>
+            </div>
+            <label class="col-md-1 control-label" for="naturalidade">Naturalidade<h11>*</h11></label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                    <input id="naturalidade" name="naturalidade" class="form-control" placeholder="Ex.: Brasileiro"
+                        type="text" maxlength="25">
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="cep">CEP <h11>*</h11></label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                    <input id="cep" name="cep" class="form-control" placeholder="00000-000" type="text" maxlength="9">
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" onclick="pesquisacep(cep.value)">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Pesquisar
+                </button>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="endereco">Endereço</label>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Rua</span>
+                    <input id="rua" name="rua" class="form-control" placeholder="" required="" readonly="readonly" type="text">
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon">Nº <h11>*</h11></span>
+                    <input id="numero" name="numero" class="form-control" placeholder="" required="" type="text">
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">Bairro</span>
+                    <input id="bairro" name="bairro" class="form-control" placeholder="" required="" readonly="readonly"
+                        type="text">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="cidade"></label>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Cidade</span>
+                    <input id="cidade" name="cidade" class="form-control" placeholder="" required="" readonly="readonly"
+                        type="text">
+                </div>
+
+            </div>
+
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon">Estado</span>
+                    <input id="estado" name="estado" class="form-control" placeholder="" required="" readonly="readonly"
+                        type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="estadoCivil">Estado Civil <h11>*</h11></label>
+            <div class="col-md-2">
+                <select required id="estadoCivil" name="estadoCivil" class="form-control">
+                    <option value="Selecione">Selecione...</option>
+                    <option value="Solteiro(a)">Solteiro(a)</option>
+                    <option value="Casado(a)">Casado(a)</option>
+                    <option value="Divorciado(a)">Divorciado(a)</option>
+                    <option value="Viuvo(a)">Viuvo(a)</option>
+                </select>
+            </div>
+            <label class="col-md-2 control-label" for="tipoSanguineo">Tipo sanguíneo <h11>*</h11></label>
+            <div class="col-md-2">
+                <select required id="tipoSanguineo" name="tipoSanguineo" class="form-control">
+                    <option value="Selecione">Selecione...</option>
+                    <option value="A">A </option>
+                    <option value="B">B</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
+                </select>
+            </div>
+        </div>
+
+        <br>
+        <div class="row form-group">
+            <label class="col-md-2 control-label" for="Cadastrar"></label>
+            <div class="col-md-8">
+                <center>
+                    <button id="Cadastrar" name="Cadastrar" class="btn btn-success" onclick="createPaciente(cpf.value);">
+                        <span class="glyphicon glyphicon-send"></span>
+                        Cadastrar
+                    </button>&nbsp &nbsp &nbsp
+                    <button id="Cancelar" name="Cancelar" class="btn btn-default" onclick="goToHome();">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Cancelar
+                    </button>&nbsp &nbsp &nbsp
+                    <button id="Cancelar" name="Cancelar" class="btn btn-danger" type="Reset">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Excluir
+                    </button>&nbsp &nbsp &nbsp
+                    <button id="Alterar" name="Alterar" class="btn btn-warning" onclick="updatePaciente(cpf.value);">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Alterar
+                    </button>
+                </center>
+            </div>
+        </div>
+
+
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var serviceAddress = /*[[${serviceAddress}]]*/ "localhost:8080";
+
+        function pesquisaPaciente(cpf) {
+            if (cpf != "") {
+                // Make a request for a user with a given ID
+                //var endpoint = /*'http://[[${serviceAddress}]]/paciente/' + cpf*/ 'http://localhost:8080/paciente/' + cpf;
+                var endpoint = "http://" + serviceAddress + "/paciente/" + cpf;
+                axios.get(endpoint)
+                    .then(function (response) {
+                        var data = response.data;
+                        console.log(data);
+                        cpf.value = data.cpf;
+                        rg.value = data.rg;
+                        dataNascimento.value = moment(data.dataNascimento).format('DD/MM/YYYY');
+                        corPele.value = data.corPele;
+                        nome.value = data.nome;
+                        celular.value = data.celular;
+                        telefone.value = data.telefone;
+                        if (data.sexo == "male") {
+                            document.getElementsByName('gender')[0].checked = true
+                        } else if (data.sexo == "female") {
+                            document.getElementsByName('gender')[1].checked = true
+                        }
+                        email.value = data.email;
+                        naturalidade.value = data.naturalidade;
+                        cep.value = data.cep;
+                        rua.value = data.rua;
+                        bairro.value = data.bairro;
+                        cidade.value = data.cidade;
+                        estado.value = data.estado;
+                        numero.value = data.numero;
+                        estadoCivil.value = data.estadoCivil;
+                        tipoSanguineo.value = data.tipoSanguineo;
+                        $.notify("Paciente encontrado", {
+                            allow_dismiss: false,
+                            type: "info",
+                            animate: {
+                                enter: 'animated bounceIn',
+                                exit: 'animated bounceOut'
+                            },
+                            delay: 2000
+                        });
+                    })
+                    .catch(function (error) {
+                        if (error.response) {
+                            console.log(error);
+                            if (error.response.status == 404) {
+                                $.notify("Paciente não encontrado", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            } else if (error.response.status == 401) {
+                                $.notify("Faça login novamente", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            } else {
+                                $.notify("algum erro aconteçeu", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            }
+                        }
+                    });
+            }
+        }
+
+        function updatePaciente(cpf) {
+            if (cpf != "") {
+                // request body
+                var requestBody = {};
+                requestBody.nome = nome.value;
+                requestBody.cpf = cpf;
+                requestBody.dataNascimento = convertPtBrDateToUsDate(dataNascimento.value);
+                requestBody.tipoSanguineo = tipoSanguineo.value;
+                requestBody.rg = rg.value;
+                requestBody.telefone = telefone.value;
+                requestBody.celular = celular.value;
+                requestBody.email = email.value;
+                requestBody.corPele = corPele.value;
+                if (document.getElementsByName('gender')[0].checked) {
+                    requestBody.sexo = "male";
+                } else {
+                    requestBody.sexo = "female";
+                }
+                requestBody.naturalidade = naturalidade.value;
+                requestBody.estadoCivil = estadoCivil.value;
+                requestBody.cep = cep.value;
+                requestBody.rua = rua.value;
+                requestBody.bairro = bairro.value;
+                requestBody.cidade = cidade.value;
+                requestBody.estado = estado.value;
+                requestBody.numero = numero.value;
+                console.log(requestBody);
+                axios.put("http://" + serviceAddress + "/paciente/", requestBody, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token'
+                        }
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                        $.notify("Paciente atualizado com sucesso", {
+                            allow_dismiss: false,
+                            type: "info",
+                            animate: {
+                                enter: 'animated bounceIn',
+                                exit: 'animated bounceOut'
+                            },
+                            delay: 2000
+                        });
+                    })
+                    .catch(function (error) {
+                        if (error.response) {
+                            console.log(error);
+                            if (error.response.status == 404) {
+                                $.notify("Paciente não encontrado", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            } else if (error.response.status == 401) {
+                                $.notify("Faça login novamente", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            } else {
+                                $.notify("algum erro aconteçeu", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            }
+                        }
+                    });
+            }
+        }
+
+        function createPaciente(cpf) {
+            if (cpf != "") {
+                // request body
+                var requestBody = {};
+                requestBody.nome = nome.value;
+                requestBody.cpf = cpf;
+                requestBody.dataNascimento = convertPtBrDateToUsDate(dataNascimento.value);
+                requestBody.tipoSanguineo = tipoSanguineo.value;
+                requestBody.rg = rg.value;
+                requestBody.telefone = telefone.value;
+                requestBody.celular = celular.value;
+                requestBody.email = email.value;
+                requestBody.corPele = corPele.value;
+                if (document.getElementsByName('gender')[0].checked) {
+                    requestBody.sexo = "male";
+                } else {
+                    requestBody.sexo = "female";
+                }
+                requestBody.naturalidade = naturalidade.value;
+                requestBody.estadoCivil = estadoCivil.value;
+                requestBody.cep = cep.value;
+                requestBody.rua = rua.value;
+                requestBody.bairro = bairro.value;
+                requestBody.cidade = cidade.value;
+                requestBody.estado = estado.value;
+                requestBody.numero = numero.value;
+                console.log(requestBody);
+                axios.post("http://" + serviceAddress + "/paciente/", requestBody, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token'
+                        }
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                        $.notify("Paciente adicionado com sucesso", {
+                            allow_dismiss: false,
+                            type: "info",
+                            animate: {
+                                enter: 'animated bounceIn',
+                                exit: 'animated bounceOut'
+                            },
+                            delay: 2000
+                        });
+                    })
+                    .catch(function (error) {
+                        if (error.response) {
+                            console.log(error);
+                            if (error.response.status == 409) {
+                                $.notify("Paciente já existe", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            } else if (error.response.status == 401) {
+                                $.notify("Faça login novamente", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            } else {
+                                $.notify("algum erro aconteçeu", {
+                                    allow_dismiss: false,
+                                    type: "danger",
+                                    animate: {
+                                        enter: 'animated bounceIn',
+                                        exit: 'animated bounceOut'
+                                    },
+                                    delay: 2000
+                                });
+                            }
+                        }
+                    });
+            }
+        }
+        /*]]>*/
+    </script>
+</body>
+
+</html>
